@@ -1,15 +1,19 @@
 version: '3'
 
 services:
-  mongo:
-    image: mongo:6.0.4
-    container_name: mongo
+  # mongo:
+  #   image: mongo:6.0.4
+  #   container_name: mongo
+  #   ports:
+  #     - 27017:27017
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=catalog
+  #     - MONGO_INITDB_ROOT_PASSWORD=catalog
+  #     - MONGO_INITDB_DATABASE=catalog
+
+ mongo:
+    image: bitnami/mongodb:4.4.14-debian-10-r33
     ports:
       - 27017:27017
-
-#  mongo:
-#     image: bitnami/mongodb:4.4.14-debian-10-r33
-#     ports:
-#       - 27017:27017
-#     environment:
-#       - MONGODB_ROOT_PASSWORD=root 
+    environment:
+      - MONGODB_ROOT_PASSWORD=catalog 
