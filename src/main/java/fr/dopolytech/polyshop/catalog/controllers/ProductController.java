@@ -15,38 +15,35 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import fr.dopolytech.polyshop.catalog.repositories.ProductRepository;
+import fr.dopolytech.polyshop.catalog.services.ProductService;
 import fr.dopolytech.polyshop.catalog.documents.Product;
 
 @RestController
 @RequestMapping("/products")
 class ProductController {
 	@Autowired
-	private ProductRepository repository;
+	private ProductService productService;
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public Mono<Product> create(@RequestBody Product product) {
-		return repository.save(product);
+		return productService.createProduct(product);
 	}
 
 	@GetMapping(value = "/{id}", produces = "application/json")
-	public Mono<Product> findOne(@PathVariable("id") String id) {
-		return repository.findById(id);
+	public Mono<Product> findOne(@PathVariable("id") String productId) {
+		return productService.getProduct(productId);
 	}
 
 	@GetMapping(produces = "application/json")
 	public Flux<Product> findALl() {
-		return repository.findAll();
+		return productService.getProducts();
 	}
 
-	@PutMapping(value = "/{id}", produces = "application/json")
-	public Mono<Product> update(@PathVariable("id") long id, @RequestBody Product god) {
-		repository.save(god);
-		return Mono.just(god);
-	}
 
 	@DeleteMapping(value = "/{id}", produces = "application/json")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public Mono<Void> delete(@PathVariable("id") String id) {
-		return repository.deleteById(id);
+		return productService.deleteProduct(id);
 	}
 }
